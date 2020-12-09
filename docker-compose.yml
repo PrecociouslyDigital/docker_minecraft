@@ -1,0 +1,45 @@
+version: '3.7'
+services:
+  the12pack:
+    image: registry.hyphen-emdash.com/the12pack
+    container_name: "minecraft_the12pack"
+    volumes:
+      - type: volume
+        source: minecraft_saves
+        target: /minecraft/world
+        volume:
+          nocopy: true
+      - type: volume
+        source: minecraft_backups
+        target: /minecraft/backups
+        volume:
+          nocopy: true
+      - type: bind
+        source: ./server.properties
+        target: /minecraft/server.properties
+      - type: bind
+        source: ./ops.json
+        target: /minecraft/ops.json
+      - type: bind
+        source: ./config
+        target: /minecraft/config
+      - type: bind
+        source: ./server-icon.png
+        target: /minecraft/server-icon.png
+      - type: bind
+        source: ./LaunchServer.sh
+        target: /minecraft/LaunchServer.sh
+    ports:
+      - "25565:25565"
+      - "25575:25575"
+    deploy:
+      resources:
+        limits:
+          memory: 20G
+        reservations:
+          memory: 8G
+volumes:
+  minecraft_saves:
+    name: minecraft_saves
+  minecraft_backups:
+    name: minecraft_backups
